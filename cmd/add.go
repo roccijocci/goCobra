@@ -18,6 +18,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/cobreNewapp/todo"
 )
 
 // addCmd represents the add command
@@ -30,18 +31,16 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	// Run: func(cmd *cobra.Command, args []string) {
-	// 	fmt.Println("This is where all the functions that will be acrewed to add is placed")
-	// 	fmt.Println("add called")
-	// 	args = ["oranges"]
-		
-
-	// },
 	Run: addRun,
 }
 
-func addRun(cmd *cobra.Command, args []string)  {
-	fmt.Println("add called")
+func addRun(cmd *cobra.Command, args []string) {
+	// fmt.Println("add called")
+	var items = []todo.Item{}
+	for _, x := range args {
+		items = append(items, todo.Item{Text: x})
+	}
+	fmt.Printf("%#v\n", items)
 }
 func init() {
 	rootCmd.AddCommand(addCmd)

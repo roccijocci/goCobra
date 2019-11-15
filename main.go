@@ -18,4 +18,5 @@ import "github.com/spf13/cobreNewapp/cmd"
 
 func main() {
 	cmd.Execute()
+
 }
