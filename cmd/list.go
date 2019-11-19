@@ -33,13 +33,11 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// fmt.Println("list called")
-		items,	err	:=	todo.ReadItems("/.tridos.json")
-
-		if err !=	nil	{
-			log.Printf("%v",	err)	
-		} 
-			fmt.Println(items)
+		items, err := todo.ReadItems("C:\\Users\\LMJ\\Documents\\gocode\\src\\github.com\\spf13\\cobreNewapp\\.tridos.json")
+		if err != nil {
+			log.Printf("%v", err)
+		}
+		fmt.Println(items)
 	},
 }
 
