@@ -17,9 +17,10 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/spf13/cobra"
-	"github.com/spf13/cobreNewapp/todo"
 	"log"
+
+	"github.com/roccijocci/goCobra/todo"
+	"github.com/spf13/cobra"
 )
 
 // listCmd represents the list command
@@ -33,7 +34,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		items, err := todo.ReadItems("C:\\Users\\LMJ\\Documents\\gocode\\src\\github.com\\spf13\\cobreNewapp\\.tridos.json")
+		items, err := todo.ReadItems(dataFile)
 		if err != nil {
 			log.Printf("%v", err)
 		}

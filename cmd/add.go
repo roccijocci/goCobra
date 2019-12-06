@@ -15,10 +15,10 @@
 package cmd
 
 import (
-	"fmt"
+	"log"
 
+	"github.com/roccijocci/goCobra/todo"
 	"github.com/spf13/cobra"
-	"github.com/spf13/cobreNewapp/todo"
 )
 
 // addCmd represents the add command
@@ -43,17 +43,20 @@ to quickly create a Cobra application.`,
 // 	return	nil
 // }
 
-
 func addRun(cmd *cobra.Command, args []string) {
 	// fmt.Println("add called")
-	var items = []todo.Item{}
+	// var items = []todo.Item{}
+	items, err := todo.ReadItems(dataFile)
+	if err != nil {
+		log.Panicf("%v", err)
+	}
 	for _, x := range args {
 		items = append(items, todo.Item{Text: x})
 	}
-	err := todo.SaveItems(".tridos.json",items);
-	if err != nil {
-		fmt.Errorf("%v", err)
-	}
+	err = todo.SaveItems(dataFile, items)
+	// if err != nil {
+	// 	fmt.Errorf("%v", err)
+	// }
 	// todo.SaveItems("x", items)
 	// fmt.Printf("%#v\n", items)
 }
