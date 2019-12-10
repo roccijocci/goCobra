@@ -3,6 +3,7 @@ package todo
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"io/ioutil"
 	"log"
@@ -12,6 +13,7 @@ import (
 type Item struct {
 	Text     string
 	Priority int
+	position int
 }
 
 //SetPriority casee
@@ -24,6 +26,21 @@ func (i *Item) SetPriority(pri int) {
 	default:
 		i.Priority = 2
 	}
+}
+
+//PrettyP to make the output pretty???
+func (i *Item) PrettyP() string {
+	if i.Priority == 1 {
+		return "(1)"
+	}
+	if i.Priority == 3 {
+		return "(3)"
+	}
+	return " "
+}
+
+func (i *Item) Label() string {
+	return strconv.Itoa(i.position) + "."
 }
 
 //SaveItems Helperfunction
