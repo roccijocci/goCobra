@@ -17,18 +17,38 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+	"sort"
+	"strconv"
 
+	"github.com/roccijocci/goCobra/todo"
 	"github.com/spf13/cobra"
 )
 
 // doneCmd represents the done command
 var doneCmd = &cobra.Command{
-	Use:   "done",
-	Short: "A brief description of your command",
-	Aliases: []string{"do"}
-	Run: doneRun,
+	Use:     "done",
+	Short:   "A brief description of your command",
+	Aliases: []string{"do"},
+	Run:     doneRun,
 }
 
+func doneRun(cmd *cobra.Command, args []string) {
+	items, err := todo.ReadItems(dataFile)
+	i, err := strconv.Atoi(args[0])
+
+	if err != nil {
+		log.Panicln(args[0], "is not a valid label\n", err)
+	}
+	if i > 0 && i < len(items) {
+		items[i-1].Done = true
+		fmt.Printf("%q %v\n", items[i-1].Text, "marked done")
+		sort.Sort(todo.ByPri(items))
+		todo.SaveItems(dataFile, items)
+	} else {
+		log.Panicln(i, "doesn't match any items")
+	}
+}
 func init() {
 	rootCmd.AddCommand(doneCmd)
 

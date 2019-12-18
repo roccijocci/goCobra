@@ -26,6 +26,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var doneOpt bool
+
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
@@ -44,13 +46,18 @@ func listRun(cmd *cobra.Command, args []string) {
 	// alows for tabwriting in the CLI interface
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
 	for _, i := range items {
-		fmt.Fprintln(w, i.Label()+"\t", i.PrettyP()+"\t"+i.Text+"\t")
+		if i.Done == doneOpt {
+
+			fmt.Fprintln(w, i.Label()+"\t"+i.PrettyDone()+"\t"+i.PrettyP()+"\t"+i.Text+"\t")
+			//return s[i].Position < s[j].Position
+		}
 	}
 	w.Flush()
 }
 
 func init() {
 	rootCmd.AddCommand(listCmd)
+	listCmd.Flags().BoolVar(&doneOpt, "done", false, "show 'done' Todos")
 
 	// Here you will define your flags and configuration settings.
 

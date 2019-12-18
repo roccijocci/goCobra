@@ -13,7 +13,8 @@ import (
 type Item struct {
 	Text     string
 	Priority int
-	position int
+	Position int
+	Done     bool
 }
 
 //SetPriority casee
@@ -39,9 +40,17 @@ func (i *Item) PrettyP() string {
 	return " "
 }
 
+//PrettyDone Calls what to return when cmd is called
+func (i *Item) PrettyDone() string {
+	if i.Done {
+		return "X"
+	}
+	return " "
+}
+
 //Label currently dunno what its gonna do
 func (i *Item) Label() string {
-	return strconv.Itoa(i.position) + "."
+	return strconv.Itoa(i.Position) + "."
 }
 
 //SaveItems Helperfunction
@@ -65,7 +74,7 @@ func ReadItems(filename string) ([]Item, error) {
 		return []Item{}, err
 	}
 	for i := range items {
-		items[i].position = i + 1
+		items[i].Position = i + 1
 	}
 	return items, nil
 }
@@ -79,8 +88,11 @@ func (s ByPri) Swap(i, j int) {
 }
 
 func (s ByPri) Less(i, j int) bool {
-	if s[i].Priority == s[j].Priority {
-		return s[i].position < s[j].position
+	if s[i].Done != s[j].Done {
+		return s[i].Done
 	}
-	return s[i].Priority < s[j].Priority
+	if s[i].Priority != s[j].Priority {
+		return s[i].Priority < s[j].Priority
+	}
+	return s[i].Position < s[j].Position
 }
