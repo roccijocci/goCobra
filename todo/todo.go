@@ -39,6 +39,7 @@ func (i *Item) PrettyP() string {
 	return " "
 }
 
+//Label currently dunno what its gonna do
 func (i *Item) Label() string {
 	return strconv.Itoa(i.position) + "."
 }
@@ -46,7 +47,7 @@ func (i *Item) Label() string {
 //SaveItems Helperfunction
 func SaveItems(filename string, items []Item) error {
 	b, err := json.Marshal(items)
-	err = ioutil.WriteFile(filename, b, 0666)
+	err = ioutil.WriteFile(filename, b, 0644)
 	if err != nil {
 		return err
 	}
@@ -63,5 +64,23 @@ func ReadItems(filename string) ([]Item, error) {
 	if err := json.Unmarshal(b, &items); err != nil {
 		return []Item{}, err
 	}
+	for i := range items {
+		items[i].position = i + 1
+	}
 	return items, nil
+}
+
+type ByPri []Item
+
+func (s ByPri) Len() int { return len(s) }
+
+func (s ByPri) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s ByPri) Less(i, j int) bool {
+	if s[i].Priority == s[j].Priority {
+		return s[i].position < s[j].position
+	}
+	return s[i].Priority < s[j].Priority
 }

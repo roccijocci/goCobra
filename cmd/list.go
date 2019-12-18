@@ -16,6 +16,7 @@ package cmd
 
 import (
 	"fmt"
+	"sort"
 
 	"log"
 	"os"
@@ -38,12 +39,12 @@ func listRun(cmd *cobra.Command, args []string) {
 	if err != nil {
 		log.Printf("%v", err)
 	}
-	fmt.Println(items)
-
+	//fmt.Println(items)
+	sort.Sort(todo.ByPri(items))
 	// alows for tabwriting in the CLI interface
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
 	for _, i := range items {
-		fmt.Fprintln(w, i.PrettyP()+"\t"+i.Text+"\t")
+		fmt.Fprintln(w, i.Label()+"\t", i.PrettyP()+"\t"+i.Text+"\t")
 	}
 	w.Flush()
 }
