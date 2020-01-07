@@ -1,4 +1,8 @@
-.github
-.tridos.json
-goCobra
-main
+.github./
+.tridos.json.*
+
+*.exe
+*.LICENSE
+.goCobra.exe
+.main.exe
+.LICENSE
