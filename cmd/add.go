@@ -19,6 +19,7 @@ import (
 
 	"github.com/roccijocci/goCobra/todo"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // addCmd represents the add command
@@ -55,7 +56,9 @@ func addRun(cmd *cobra.Command, args []string) {
 		item.SetPriority(priority)
 		items = append(items, item)
 	}
-	err = todo.SaveItems(dataFile, items)
+	if err := todo.SaveItems(viper.GetString("dataFile"), items); err != nil {
+
+	}
 }
 
 var priority int
